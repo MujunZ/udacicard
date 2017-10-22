@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
@@ -7,6 +7,15 @@ import { TabNavigator, StackNavigator } from "react-navigation";
 import { FontAwesome } from "@expo/vector-icons";
 import DeckList from './components/DeckList';
 import AddDeck from './components/AddDeck';
+import { Constants } from 'expo';
+
+function UdaciStatusBar ({ backgroundColor, ...props}){
+  return (
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+    </View>
+  )
+}
 
 const Tabs = TabNavigator({
   DeckList: {
@@ -38,6 +47,7 @@ export default class App extends React.Component {
     return (
       <Provider store={createStore(reducer)}>
         <View style={styles.container}>
+          <UdaciStatusBar backgroundColor={'#008080'} barStyle={"light-content"}/>
           <Tabs />
         </View>
       </Provider>
@@ -48,6 +58,5 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
 });
