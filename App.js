@@ -4,13 +4,14 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
 import DeckList from './components/DeckList';
+import AddDeck from './components/AddDeck';
 
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={createStore(reducer)}>
         <View style={styles.container}>
-          <DeckList />
+          <AddDeck />
         </View>
       </Provider>
     );
@@ -22,5 +23,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });

@@ -36,10 +36,4 @@ function mapStateToProps (state) {
     return state
 }
 
-function mapDispatchToProps (dispatch) {
-    return {
-        addDeck: () => dispatch(addDeck())
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DeckList);
+export default connect(mapStateToProps)(DeckList);
