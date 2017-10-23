@@ -31,10 +31,17 @@ const deckData = {
 function decks (state = { deckData }, action ) {
     const { decks, deckName, card } = action
     switch (action.type) {
+        case SET_DECKS:
+            if(decks){
+                return JSON.parse(decks);
+            } else {
+                return state;
+            }
         case ADD_DECK:
-            state.deckData[`${deckName}`] = {title: `${deckName}`, questions: []}
-            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(state));
-            return state;
+            let addDeckState = state;
+            addDeckState.deckData[`${deckName}`] = {title: `${deckName}`, questions: []}
+            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(addDeckState));
+            return addDeckState;
         case ADD_CARD:
             const deckID = card.deck;
             let newState = {

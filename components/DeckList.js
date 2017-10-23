@@ -2,14 +2,25 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from 'react-native';
 import { Constants } from 'expo';
 import { connect } from 'react-redux';
-import { addDeck } from '../actions';
+import { setDecks } from '../actions';
 import { AsyncStorage } from 'react-native';
 import { DECK_STORAGE_KEY } from '../reducers';
 
 class DeckList extends Component {
+    state = {
+        ready: false
+    }
+
+    componentDidMount() {
+        AsyncStorage.getItem(DECK_STORAGE_KEY)
+            .then(results => {
+                this.props.setDecks(results)
+            })
+            .then(() => this.setState({ ready: true }))
+    }
+
     render() {
         const { deckData } = this.props;
-        AsyncStorage.getItem(DECK_STORAGE_KEY)
         return(
             <View>
                 {Object.keys(deckData).map((deckKey) => {
@@ -35,13 +46,13 @@ const styles = StyleSheet.create({
     }
 })
 
-function mapStateToProps (state) {
-    return state
+function mapStateToProps ({ deckData }) {
+    return { deckData }
 }
 
 function mapDispatchToProps (dispatch) {
     return {
-        setDecks: (data) => dispatch(addDecks(data))
+        setDecks: (data) => dispatch(setDecks(data))
     }
 }
 
