@@ -1,13 +1,23 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import logger from 'redux-logger';
 import reducer from './reducers';
 import { TabNavigator, StackNavigator } from "react-navigation";
 import { FontAwesome } from "@expo/vector-icons";
 import DeckList from './components/DeckList';
 import AddDeck from './components/AddDeck';
 import { Constants } from 'expo';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+    reducer,
+    composeEnhancers(
+        applyMiddleware(logger)
+    )
+);
 
 function UdaciStatusBar ({ backgroundColor, ...props}){
   return (
@@ -45,7 +55,7 @@ const Tabs = TabNavigator({
 export default class App extends React.Component {
   render() {
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={ store }>
         <View style={styles.container}>
           <UdaciStatusBar backgroundColor={'#008080'} barStyle={"light-content"}/>
           <Tabs />
