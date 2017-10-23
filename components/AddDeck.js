@@ -1,16 +1,24 @@
-import React, { Component } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native";
-import { connect } from "react-redux";
-import { addDeck } from "../actions";
+import React, { Component } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { addDeck } from '../actions';
 
 class AddDeck extends Component {
+    state = {
+        title: ''
+    }
+    submitTitle = () => {
+        const { title }= this.state;
+        if(title) {
+            this.props.addDeck(title)
+        }
+    }
     render() {
-
         return(
             <View style={styles.container}>
                 <Text style={styles.title}>What is the title of your new deck?</Text>
-                <TextInput style={styles.input} placeholder='Deck Title'/>
-                <TouchableOpacity style={styles.submitBtn}>
+                <TextInput style={styles.input} placeholder='Deck Title' onChangeText={(title) => this.setState({title})}/>
+                <TouchableOpacity style={styles.submitBtn} onPress={this.submitTitle}>
                     <Text style={styles.submitBtnText}>Submit</Text>
                 </TouchableOpacity>
             </View>
@@ -57,7 +65,7 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
     return {
-        addDeck: () => dispatch(addDeck())
+        addDeck: (data) => dispatch(addDeck(data))
     }
 }
 

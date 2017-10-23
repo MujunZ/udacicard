@@ -1,7 +1,7 @@
-import { ADD_DECK, ADD_CARD } from "../actions";
+import { SET_DECKS, ADD_DECK, ADD_CARD } from "../actions";
 import { AsyncStorage } from 'react-native';
 
-export const DECK_STORAGE_KEY = 'Udacicards:deck';
+export const DECK_STORAGE_KEY = '@Udacicards:deck';
 
 const deckData = {
     React: {
@@ -29,28 +29,24 @@ const deckData = {
 };
 
 function decks (state = { deckData }, action ) {
-    const { deck, card } = action
-
-    AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(state));
+    const { decks, deckName, card } = action
     switch (action.type) {
         case ADD_DECK:
-            AsyncStorage.mergeItem(DECK_STORAGE_KEY, JSON.stringify(deck));
-            return {
-                ...state,
-                deck
-            }
+            state.deckData[`${deckName}`] = {title: `${deckName}`, questions: []}
+            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(state));
+            return state;
         case ADD_CARD:
-        const deckID = card.deck;
-        const newState = {
-            ...state,
-            [deckID]: {
-                ...deckID,
-                questions: {
-                    ...questions,
-                    card
+            const deckID = card.deck;
+            let newState = {
+                ...state,
+                [deckID]: {
+                    ...deckID,
+                    questions: {
+                        ...questions,
+                        card
+                    }
                 }
             }
-        }
             AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(newState));
             return newState;
         default :

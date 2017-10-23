@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { connect } from "react-redux";
-import { addDeck } from "../actions";
+import { View, Text, StyleSheet } from 'react-native';
+import { Constants } from 'expo';
+import { connect } from 'react-redux';
+import { addDeck } from '../actions';
+import { AsyncStorage } from 'react-native';
+import { DECK_STORAGE_KEY } from '../reducers';
 
 class DeckList extends Component {
     render() {
         const { deckData } = this.props;
-
+        AsyncStorage.getItem(DECK_STORAGE_KEY)
         return(
             <View>
                 {Object.keys(deckData).map((deckKey) => {
@@ -36,4 +39,10 @@ function mapStateToProps (state) {
     return state
 }
 
-export default connect(mapStateToProps)(DeckList);
+function mapDispatchToProps (dispatch) {
+    return {
+        setDecks: (data) => dispatch(addDecks(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeckList);
