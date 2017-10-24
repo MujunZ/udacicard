@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 
 export const DECK_STORAGE_KEY = '@Udacicards:deck';
 
-const deckData = {
+let deckData = {
     React: {
       title: 'React',
       questions: [
@@ -38,10 +38,12 @@ function decks (state = { deckData }, action ) {
                 return state;
             }
         case ADD_DECK:
-            let addDeckState = state;
-            addDeckState.deckData[`${deckName}`] = {title: `${deckName}`, questions: []}
-            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(addDeckState));
-            return addDeckState;
+            let deckData = {
+                ...state.deckData
+            };
+            deckData[`${deckName}`] = {title: `${deckName}`, questions: []}
+            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify({...state, deckData}));
+            return {...state, deckData};
         case ADD_CARD:
             const deckID = card.deck;
             let newState = {

@@ -17,6 +17,9 @@ class DeckList extends Component {
                 this.props.setDecks(results)
             })
             .then(() => this.setState({ ready: true }))
+            .catch((err)=>{
+                console.log(`error message -> ${err}`);
+            })
     }
 
     render() {
