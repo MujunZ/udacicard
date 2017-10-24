@@ -9,6 +9,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import DeckList from './components/DeckList';
 import AddDeck from './components/AddDeck';
 import { Constants } from 'expo';
+import Deck from './components/Deck';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -43,11 +44,29 @@ const Tabs = TabNavigator({
     }
   }
 }, {
+  navigationOptions: {
+    header: null
+  },
   tabBarOptions: {
     activeTintColor: '#000',
     inactiveTintColor: '#696969',
     style: {
       backgroundColor: '#fff'
+    }
+  }
+})
+
+const MainNavigator = StackNavigator({
+  Home: {
+    screen: Tabs,
+  },
+  Deck: {
+    screen: Deck,
+    navigationOptions: {
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: "#000",
+      }
     }
   }
 })
@@ -58,7 +77,7 @@ export default class App extends React.Component {
       <Provider store={ store }>
         <View style={styles.container}>
           <UdaciStatusBar backgroundColor={'#008080'} barStyle={"light-content"}/>
-          <Tabs />
+          <MainNavigator />
         </View>
       </Provider>
     );
