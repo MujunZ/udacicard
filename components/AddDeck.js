@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import { addDeck } from '../actions';
 import { NavigationActions } from "react-navigation";
@@ -23,13 +23,13 @@ class AddDeck extends Component {
     }
     render() {
         return(
-            <View style={styles.container}>
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <Text style={styles.title}>What is the title of your new deck?</Text>
                 <TextInput style={styles.input} placeholder='Deck Title' onChangeText={(title) => this.setState({title})} value={this.state.title}/>
                 <TouchableOpacity style={styles.submitBtn} onPress={this.submitTitle}>
                     <Text style={styles.submitBtnText}>Submit</Text>
                 </TouchableOpacity>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }
