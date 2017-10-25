@@ -6,7 +6,7 @@ import { NavigationActions } from "react-navigation";
 function Result({ correctNum, incorrectNum }){
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>result</Text>
+            <Text style={styles.title}>Result</Text>
             <Text>{correctNum} Correct</Text>
             <Text>{incorrectNum} Incorrect</Text>
         </View>
@@ -17,7 +17,7 @@ class Quiz extends Component {
     state = {
         cardIndex: 0,
         showAnwser: false,
-        showResult: true,
+        showResult: false,
         correctNum: 0,
         incorrectNum: 0,
     }
@@ -28,21 +28,25 @@ class Quiz extends Component {
     hideAnwser = () => {
         this.setState({ showAnwser:false })
     }
-    submitCorrect = (cardIndex, cardNum) => {
-        this.setState( state => {
-            // let nextIndex;
-            // let correctCount;
-            // let resultShow = false;
-            // if (cardIndex + 1 < cardNum) {
-            //     nextIndex = cardIndex + 1;
-            //     correctCount++;
-            // } else if (){
 
-            // }
-            const nextIndex = cardIndex + 1 < cardNum ? cardIndex + 1 : cardIndex;
+    submitResult = (cardIndex, cardNum, key) => {
+        this.setState( state => {
+            let nextIndex;
+            let count = this.state[key];
+            let resultShow = false;
+            if (cardIndex + 1 < cardNum) {
+                nextIndex = cardIndex + 1;
+                count++;
+            } else if (cardIndex + 1 === cardNum){
+                nextIndex = cardIndex;
+                count++;
+                resultShow = true;
+            }
             return {
                 ...state,
                 cardIndex: nextIndex,
+                showResult: resultShow,
+                [key]: count,
             }
         })
     }
@@ -54,7 +58,7 @@ class Quiz extends Component {
         const { question, answer } = cardData;
         return(
             <View style={{flex: 1}}>
-                {showResult && (<View style={styles.container}>
+                {!showResult && (<View style={styles.container}>
                     <Text style={styles.index}>{cardIndex + 1}/{cardNum}</Text>
                     {!showAnwser && (<View style={styles.quizContainer}>
                         <Text style={styles.title}>{question}</Text>
@@ -67,16 +71,19 @@ class Quiz extends Component {
                     <View style={styles.btnContainer}>
                         <TouchableOpacity 
                             style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}
-                            onPress={() => this.submitCorrect(cardIndex, cardNum)}
+                            onPress={() => this.submitResult(cardIndex, cardNum, "correctNum")}
                         >
                             <Text style={[styles.submitBtnText]}>Correct</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.submitBtn, {backgroundColor: '#000'}]}>
+                        <TouchableOpacity 
+                            style={[styles.submitBtn, {backgroundColor: '#000'}]}
+                            onPress={() => this.submitResult(cardIndex, cardNum, "incorrectNum")}
+                        >
                             <Text style={[styles.submitBtnText, {color: '#fff'}]}>Incorrect</Text>
                         </TouchableOpacity>
                     </View>
                 </View>)}
-                {!showResult && <Result correctNum={correctNum} incorrectNum={incorrectNum}/>}
+                {showResult && <Result correctNum={correctNum} incorrectNum={incorrectNum}/>}
             </View>
         )
     }
