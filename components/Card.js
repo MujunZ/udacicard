@@ -3,23 +3,26 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { connect } from 'react-redux';
 import { NavigationActions } from "react-navigation";
 
-class Deck extends Component {
+class Card extends Component {
+    state = {
+        cardIndex: 1
+    }
     render() {
         const { deckKey, cardNum } = this.props.navigation.state.params;
+        const { deckData } = this.props;
+        const { cardIndex } = this.state;
+        const cardData = deckData[deckKey].questions[cardIndex];
+        const { question, answer } = cardData;
         return(
             <View style={styles.container}>
-                <Text style={styles.title}>{deckKey}</Text>
-                <Text style={styles.subtitle}>{cardNum} Cards</Text>
+                <Text style={styles.title}>{question}</Text>
+                <Text style={styles.answer}>{answer}</Text>
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity 
-                        style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}
-                    >
-                        <Text style={[styles.submitBtnText]}>Add A Card</Text>
+                    <TouchableOpacity style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}>
+                        <Text style={[styles.submitBtnText]}>Correct</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.submitBtn, {backgroundColor: '#000'}]}
-                        onPress={() => this.props.navigation.navigate('Card', { deckKey, cardNum })}
-                    >
-                        <Text style={[styles.submitBtnText, {color: '#fff'}]}>Start Quiz</Text>
+                    <TouchableOpacity style={[styles.submitBtn, {backgroundColor: '#000'}]}>
+                        <Text style={[styles.submitBtnText, {color: '#fff'}]}>Incorrect</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -35,6 +38,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 40,
+        textAlign: 'center',
     },
     subtitle: {
         color: '#666',
@@ -57,4 +61,4 @@ function mapStateToProps (state) {
     return state
 }
 
-export default connect(mapStateToProps)(Deck);
+export default connect(mapStateToProps)(Card);

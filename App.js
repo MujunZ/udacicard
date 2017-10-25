@@ -10,6 +10,7 @@ import DeckList from './components/DeckList';
 import AddDeck from './components/AddDeck';
 import { Constants } from 'expo';
 import Deck from './components/Deck';
+import Card from './components/Card';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -59,10 +60,28 @@ const Tabs = TabNavigator({
 const MainNavigator = StackNavigator({
   Home: {
     screen: Tabs,
+    navigationOptions: {
+      title: 'Home',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: "#000",
+      }
+    }
   },
   Deck: {
     screen: Deck,
     navigationOptions: {
+      title: 'Deck',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: "#000",
+      }
+    }
+  },
+  Card: {
+    screen: Card,
+    navigationOptions: {
+      title: 'Card',
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: "#000",
