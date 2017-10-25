@@ -70,13 +70,13 @@ class Quiz extends Component {
                     </View>)}
                     <View style={styles.btnContainer}>
                         <TouchableOpacity 
-                            style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}
+                            style={[styles.submitBtn, { backgroundColor: '#f00' }]}
                             onPress={() => this.submitResult(cardIndex, cardNum, "correctNum")}
                         >
-                            <Text style={[styles.submitBtnText]}>Correct</Text>
+                            <Text style={[styles.submitBtnText, {color: '#fff'}]}>Correct</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            style={[styles.submitBtn, {backgroundColor: '#000'}]}
+                            style={[styles.submitBtn, {backgroundColor: '#008000'}]}
                             onPress={() => this.submitResult(cardIndex, cardNum, "incorrectNum")}
                         >
                             <Text style={[styles.submitBtnText, {color: '#fff'}]}>Incorrect</Text>
