@@ -10,7 +10,7 @@ import DeckList from './components/DeckList';
 import AddDeck from './components/AddDeck';
 import { Constants } from 'expo';
 import Deck from './components/Deck';
-import Card from './components/Card';
+import Quiz from './components/Quiz';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -78,8 +78,8 @@ const MainNavigator = StackNavigator({
       }
     }
   },
-  Card: {
-    screen: Card,
+  Quiz: {
+    screen: Quiz,
     navigationOptions: {
       title: 'Quiz',
       headerTintColor: '#fff',

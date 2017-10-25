@@ -3,9 +3,9 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { connect } from 'react-redux';
 import { NavigationActions } from "react-navigation";
 
-class Card extends Component {
+class Quiz extends Component {
     state = {
-        cardIndex: 1,
+        cardIndex: 0,
         showAnwser: false,
     }
 
@@ -15,14 +15,24 @@ class Card extends Component {
     hideAnwser = () => {
         this.setState({ showAnwser:false })
     }
+    submitCorrect = (cardIndex, cardNum) => {
+        this.setState( state => {
+            const nextIndex = cardIndex + 1 < cardNum ? cardIndex + 1 : cardIndex;
+            return {
+                ...state,
+                cardIndex: nextIndex,
+            }
+        })
+    }
     render() {
         const { deckKey, cardNum } = this.props.navigation.state.params;
         const { deckData } = this.props;
-        const { cardIndex, showAnwser } = this.state;
+        let { cardIndex, showAnwser } = this.state;
         const cardData = deckData[deckKey].questions[cardIndex];
         const { question, answer } = cardData;
         return(
             <View style={styles.container}>
+                <Text style={styles.index}>{cardIndex + 1}/{cardNum}</Text>
                 {!showAnwser && (<View style={styles.quizContainer}>
                     <Text style={styles.title}>{question}</Text>
                     <TouchableOpacity onPress={this.showAnwser}><Text style={styles.answerToggler}>Answer</Text></TouchableOpacity>
@@ -32,7 +42,10 @@ class Card extends Component {
                     <TouchableOpacity onPress={this.hideAnwser}><Text style={styles.answerToggler}>Question</Text></TouchableOpacity>
                 </View>)}
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}>
+                    <TouchableOpacity 
+                        style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}
+                        onPress={() => this.submitCorrect(cardIndex, cardNum)}
+                    >
                         <Text style={[styles.submitBtnText]}>Correct</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.submitBtn, {backgroundColor: '#000'}]}>
@@ -49,6 +62,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    index: {
+        marginBottom: 'auto',
+        alignSelf: 'flex-start',
     },
     title: {
         fontSize: 40,
@@ -77,6 +94,7 @@ const styles = StyleSheet.create({
     },
     btnContainer: {
         marginTop: 80,
+        marginBottom: 220,
     }
 })
 
@@ -84,4 +102,4 @@ function mapStateToProps (state) {
     return state
 }
 
-export default connect(mapStateToProps)(Card);
+export default connect(mapStateToProps)(Quiz);
