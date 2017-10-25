@@ -61,7 +61,7 @@ const MainNavigator = StackNavigator({
   Home: {
     screen: Tabs,
     navigationOptions: {
-      title: 'Home',
+      title: 'Udacicards',
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: "#000",
@@ -81,7 +81,7 @@ const MainNavigator = StackNavigator({
   Card: {
     screen: Card,
     navigationOptions: {
-      title: 'Card',
+      title: 'Quiz',
       headerTintColor: '#fff',
       headerStyle: {
         backgroundColor: "#000",

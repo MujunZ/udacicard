@@ -5,18 +5,32 @@ import { NavigationActions } from "react-navigation";
 
 class Card extends Component {
     state = {
-        cardIndex: 1
+        cardIndex: 1,
+        showAnwser: false,
+    }
+
+    showAnwser = () => {
+        this.setState({ showAnwser:true })
+    }
+    hideAnwser = () => {
+        this.setState({ showAnwser:false })
     }
     render() {
         const { deckKey, cardNum } = this.props.navigation.state.params;
         const { deckData } = this.props;
-        const { cardIndex } = this.state;
+        const { cardIndex, showAnwser } = this.state;
         const cardData = deckData[deckKey].questions[cardIndex];
         const { question, answer } = cardData;
         return(
             <View style={styles.container}>
-                <Text style={styles.title}>{question}</Text>
-                <Text style={styles.answer}>{answer}</Text>
+                {!showAnwser && (<View style={styles.quizContainer}>
+                    <Text style={styles.title}>{question}</Text>
+                    <TouchableOpacity onPress={this.showAnwser}><Text style={styles.answerToggler}>Answer</Text></TouchableOpacity>
+                </View>)}
+                {showAnwser && (<View style={styles.quizContainer}>
+                    <Text style={styles.title}>{answer}</Text>
+                    <TouchableOpacity onPress={this.hideAnwser}><Text style={styles.answerToggler}>Question</Text></TouchableOpacity>
+                </View>)}
                 <View style={styles.btnContainer}>
                     <TouchableOpacity style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}>
                         <Text style={[styles.submitBtnText]}>Correct</Text>
@@ -39,6 +53,15 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 40,
         textAlign: 'center',
+    },
+    quizContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    answerToggler: {
+        color: '#f00',
+        padding: 2,
+        fontWeight: 'bold',
     },
     subtitle: {
         color: '#666',
