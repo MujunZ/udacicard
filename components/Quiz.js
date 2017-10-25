@@ -3,10 +3,23 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { connect } from 'react-redux';
 import { NavigationActions } from "react-navigation";
 
+function Result({ correctNum, incorrectNum }){
+    return(
+        <View style={styles.container}>
+            <Text style={styles.title}>result</Text>
+            <Text>{correctNum} Correct</Text>
+            <Text>{incorrectNum} Incorrect</Text>
+        </View>
+    )
+}
+
 class Quiz extends Component {
     state = {
         cardIndex: 0,
         showAnwser: false,
+        showResult: true,
+        correctNum: 0,
+        incorrectNum: 0,
     }
 
     showAnwser = () => {
@@ -17,6 +30,15 @@ class Quiz extends Component {
     }
     submitCorrect = (cardIndex, cardNum) => {
         this.setState( state => {
+            // let nextIndex;
+            // let correctCount;
+            // let resultShow = false;
+            // if (cardIndex + 1 < cardNum) {
+            //     nextIndex = cardIndex + 1;
+            //     correctCount++;
+            // } else if (){
+
+            // }
             const nextIndex = cardIndex + 1 < cardNum ? cardIndex + 1 : cardIndex;
             return {
                 ...state,
@@ -27,31 +49,34 @@ class Quiz extends Component {
     render() {
         const { deckKey, cardNum } = this.props.navigation.state.params;
         const { deckData } = this.props;
-        let { cardIndex, showAnwser } = this.state;
+        let { cardIndex, showAnwser, showResult, correctNum, incorrectNum } = this.state;
         const cardData = deckData[deckKey].questions[cardIndex];
         const { question, answer } = cardData;
         return(
-            <View style={styles.container}>
-                <Text style={styles.index}>{cardIndex + 1}/{cardNum}</Text>
-                {!showAnwser && (<View style={styles.quizContainer}>
-                    <Text style={styles.title}>{question}</Text>
-                    <TouchableOpacity onPress={this.showAnwser}><Text style={styles.answerToggler}>Answer</Text></TouchableOpacity>
+            <View style={{flex: 1}}>
+                {showResult && (<View style={styles.container}>
+                    <Text style={styles.index}>{cardIndex + 1}/{cardNum}</Text>
+                    {!showAnwser && (<View style={styles.quizContainer}>
+                        <Text style={styles.title}>{question}</Text>
+                        <TouchableOpacity onPress={this.showAnwser}><Text style={styles.answerToggler}>Answer</Text></TouchableOpacity>
+                    </View>)}
+                    {showAnwser && (<View style={styles.quizContainer}>
+                        <Text style={styles.title}>{answer}</Text>
+                        <TouchableOpacity onPress={this.hideAnwser}><Text style={styles.answerToggler}>Question</Text></TouchableOpacity>
+                    </View>)}
+                    <View style={styles.btnContainer}>
+                        <TouchableOpacity 
+                            style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}
+                            onPress={() => this.submitCorrect(cardIndex, cardNum)}
+                        >
+                            <Text style={[styles.submitBtnText]}>Correct</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.submitBtn, {backgroundColor: '#000'}]}>
+                            <Text style={[styles.submitBtnText, {color: '#fff'}]}>Incorrect</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>)}
-                {showAnwser && (<View style={styles.quizContainer}>
-                    <Text style={styles.title}>{answer}</Text>
-                    <TouchableOpacity onPress={this.hideAnwser}><Text style={styles.answerToggler}>Question</Text></TouchableOpacity>
-                </View>)}
-                <View style={styles.btnContainer}>
-                    <TouchableOpacity 
-                        style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}
-                        onPress={() => this.submitCorrect(cardIndex, cardNum)}
-                    >
-                        <Text style={[styles.submitBtnText]}>Correct</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={[styles.submitBtn, {backgroundColor: '#000'}]}>
-                        <Text style={[styles.submitBtnText, {color: '#fff'}]}>Incorrect</Text>
-                    </TouchableOpacity>
-                </View>
+                {!showResult && <Result correctNum={correctNum} incorrectNum={incorrectNum}/>}
             </View>
         )
     }
