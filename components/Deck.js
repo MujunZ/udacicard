@@ -5,7 +5,8 @@ import { NavigationActions } from "react-navigation";
 
 class Deck extends Component {
     render() {
-        const { deckKey, cardNum } = this.props.navigation.state.params;
+        const { deckKey } = this.props.navigation.state.params;
+        const cardNum = this.props.deckData[deckKey].questions.length;
         return(
             <View style={styles.container}>
                 <Text style={styles.title}>{deckKey}</Text>
