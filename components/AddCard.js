@@ -16,12 +16,10 @@ class AddCard extends Component {
             this.props.addCard({ deckKey, question, answer });
             this.setState({ question, answer });
         }
-        this.toHome();
+        this.goBack(deckKey);
     }
-    toHome = () => {
-        this.props.navigation.dispatch(NavigationActions.back({
-            key: "AddCard"
-        }))
+    goBack = () => {
+        this.props.navigation.dispatch(NavigationActions.back({}))
     }
     render() {
         return(
