@@ -29,7 +29,10 @@ let deckData = {
 };
 
 function decks (state = { deckData }, action ) {
-    const { decks, deckName, card } = action
+    const { decks, deckName, question, answer } = action
+    let deckData = {
+        ...state.deckData
+    };
     switch (action.type) {
         case SET_DECKS:
             if(decks){
@@ -38,26 +41,16 @@ function decks (state = { deckData }, action ) {
                 return state;
             }
         case ADD_DECK:
-            let deckData = {
-                ...state.deckData
-            };
-            deckData[`${deckName}`] = {title: `${deckName}`, questions: []}
-            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify({...state, deckData}));
-            return {...state, deckData};
+            deckData[deckName] = {title: `${deckName}`, questions: []}
+            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify({deckData}));
+            return {deckData};
         case ADD_CARD:
-            const deckID = card.deck;
-            let newState = {
-                ...state,
-                [deckID]: {
-                    ...deckID,
-                    questions: {
-                        ...questions,
-                        card
-                    }
-                }
-            }
-            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify(newState));
-            return newState;
+            const questions = [
+                ...deckData[deckName].questions
+            ]
+            questions.push({ question, answer })
+            AsyncStorage.setItem(DECK_STORAGE_KEY, JSON.stringify({deckData: {...deckData, [deckName]: {...deckData[deckName], questions}}}));
+            return {deckData: {...deckData, [deckName]: {...deckData[deckName], questions}}};
         default :
             return state
     }

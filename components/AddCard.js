@@ -11,11 +11,12 @@ class AddCard extends Component {
     }
     submitCard = () => {
         const { question, answer }= this.state;
-        if(title && answer) {
-            this.props.addCard(question, answer);
-            this.setState({ title, answer });
+        const { deckKey }= this.props.navigation.state.params;
+        if(question && answer) {
+            this.props.addCard({ deckKey, question, answer });
+            this.setState({ question, answer });
         }
-        this.toHome();
+        //this.toHome();
     }
     toHome = () => {
         this.props.navigation.dispatch(NavigationActions.back({
