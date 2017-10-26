@@ -11,6 +11,7 @@ import AddDeck from './components/AddDeck';
 import { Constants } from 'expo';
 import Deck from './components/Deck';
 import Quiz from './components/Quiz';
+import AddCard from './components/AddCard';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -33,14 +34,14 @@ const Tabs = TabNavigator({
   DeckList: {
     screen: DeckList,
     navigationOptions: {
-      tabBarLabel: 'Cards',
+      tabBarLabel: 'Decks',
       tabBarIcon: ({ tintColor }) => <FontAwesome name='list-alt' size={30} color={tintColor} />
     }
   },
   AddDeck: {
     screen: AddDeck,
     navigationOptions: {
-      tabBarLabel: 'Add Card',
+      tabBarLabel: 'New Deck',
       tabBarIcon: ({ tintColor }) => <FontAwesome name='plus' size={30} color={tintColor} />
     }
   }
@@ -87,7 +88,17 @@ const MainNavigator = StackNavigator({
         backgroundColor: "#000",
       }
     }
-  }
+  },
+  AddCard: {
+    screen: AddCard,
+    navigationOptions: {
+      title: 'Add Card',
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: "#000",
+      }
+    }
+  },
 })
 
 export default class App extends React.Component {

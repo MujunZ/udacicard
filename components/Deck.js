@@ -13,6 +13,7 @@ class Deck extends Component {
                 <View style={styles.btnContainer}>
                     <TouchableOpacity 
                         style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}
+                        onPress={() => this.props.navigation.navigate('AddCard',{ deckKey })}
                     >
                         <Text style={[styles.submitBtnText]}>Add A Card</Text>
                     </TouchableOpacity>
