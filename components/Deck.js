@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { NavigationActions } from "react-navigation";
 
 class Deck extends Component {
+    toAddCard = deckKey => this.props.navigation.navigate('AddCard',{ deckKey });
+    toQuiz = (deckKey, cardNum) => this.props.navigation.navigate('Quiz', { deckKey, cardNum });
     render() {
         const { deckKey } = this.props.navigation.state.params;
         const cardNum = this.props.deckData[deckKey].questions.length;
@@ -12,17 +14,18 @@ class Deck extends Component {
                 <Text style={styles.title}>{deckKey}</Text>
                 <Text style={styles.subtitle}>{cardNum} Cards</Text>
                 <View style={styles.btnContainer}>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         style={[styles.submitBtn, {backgroundColor: '#fff', borderColor: '#000', borderWidth: 1}]}
-                        onPress={() => this.props.navigation.navigate('AddCard',{ deckKey })}
+                        onPress={() => this.toAddCard(deckKey)}
                     >
                         <Text style={[styles.submitBtnText]}>Add A Card</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.submitBtn, {backgroundColor: '#000'}]}
-                        onPress={() => this.props.navigation.navigate('Quiz', { deckKey, cardNum })}
+                    {cardNum > 0 && (<TouchableOpacity 
+                        style={[styles.submitBtn, {backgroundColor: '#000'}]}
+                        onPress={() => this.toQuiz(deckKey, cardNum)}
                     >
                         <Text style={[styles.submitBtnText, {color: '#fff'}]}>Start Quiz</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>)}
                 </View>
             </View>
         )
