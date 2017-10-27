@@ -12,6 +12,7 @@ import { Constants } from 'expo';
 import Deck from './components/Deck';
 import Quiz from './components/Quiz';
 import AddCard from './components/AddCard';
+import { setLocalNotification } from './notification'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -102,6 +103,9 @@ const MainNavigator = StackNavigator({
 })
 
 export default class App extends React.Component {
+  componentDidMount(){
+    setLocalNotification();
+  }
   render() {
     return (
       <Provider store={ store }>

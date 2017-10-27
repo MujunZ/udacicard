@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from "react-navigation";
+import { clearLocalNotification, setLocalNotification } from '../notification'
 
 class Deck extends Component {
     toAddCard = deckKey => this.props.navigation.navigate('AddCard',{ deckKey });
-    toQuiz = (deckKey, cardNum) => this.props.navigation.navigate('Quiz', { deckKey, cardNum });
+    toQuiz = (deckKey, cardNum) => {
+        clearLocalNotification()
+            .then(setLocalNotification);
+        this.props.navigation.navigate('Quiz', { deckKey, cardNum })
+    };
     render() {
         const { deckKey } = this.props.navigation.state.params;
         const cardNum = this.props.deckData[deckKey].questions.length;
