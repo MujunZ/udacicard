@@ -3,16 +3,6 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { connect } from 'react-redux';
 import { NavigationActions } from "react-navigation";
 
-function Result({ correctNum, incorrectNum }){
-    return(
-        <View style={styles.container}>
-            <Text style={styles.title}>Result</Text>
-            <Text>{correctNum} Correct</Text>
-            <Text>{incorrectNum} Incorrect</Text>
-        </View>
-    )
-}
-
 class Quiz extends Component {
     state = {
         cardIndex: 0,
@@ -50,6 +40,14 @@ class Quiz extends Component {
             }
         })
     }
+
+    restart = () => this.setState({
+            cardIndex: 0,
+            showAnwser: false,
+            showResult: false,
+            correctNum: 0,
+            incorrectNum: 0,
+        })
     render() {
         const { deckKey, cardNum } = this.props.navigation.state.params;
         const { deckData } = this.props;
@@ -73,17 +71,29 @@ class Quiz extends Component {
                             style={[styles.submitBtn, { backgroundColor: '#f00' }]}
                             onPress={() => this.submitResult(cardIndex, cardNum, "correctNum")}
                         >
-                            <Text style={[styles.submitBtnText, {color: '#fff'}]}>Correct</Text>
+                            <Text style={styles.submitBtnText}>Correct</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={[styles.submitBtn, {backgroundColor: '#008000'}]}
                             onPress={() => this.submitResult(cardIndex, cardNum, "incorrectNum")}
                         >
-                            <Text style={[styles.submitBtnText, {color: '#fff'}]}>Incorrect</Text>
+                            <Text style={styles.submitBtnText}>Incorrect</Text>
                         </TouchableOpacity>
                     </View>
                 </View>)}
-                {showResult && <Result correctNum={correctNum} incorrectNum={incorrectNum}/>}
+                {showResult && (
+                    <View style={styles.container}>
+                        <Text style={styles.title}>Result</Text>
+                        <Text>{correctNum} Correct</Text>
+                        <Text>{incorrectNum} Incorrect</Text>
+                        <TouchableOpacity 
+                            style={[styles.submitBtn, {backgroundColor: '#000'}]}
+                            onPress={this.restart}
+                        >
+                            <Text style={styles.submitBtnText}>Restart Quiz</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
         )
     }
@@ -127,6 +137,9 @@ const styles = StyleSheet.create({
     btnContainer: {
         marginTop: 80,
         marginBottom: 220,
+    },
+    submitBtnText: {
+        color: '#fff',
     }
 })
 
