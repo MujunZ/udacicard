@@ -59,7 +59,7 @@ class Quiz extends Component {
                 {!showResult && (<View style={styles.container}>
                     <Text style={styles.index}>{cardIndex + 1}/{cardNum}</Text>
                     {!showAnwser && (<View style={styles.quizContainer}>
-                        <Text style={styles.title}>{question}</Text>
+                        <Text style={[styles.title, { fontSize: 20 }]}>{question}</Text>
                         <TouchableOpacity onPress={this.showAnwser}><Text style={styles.answerToggler}>Answer</Text></TouchableOpacity>
                     </View>)}
                     {showAnwser && (<View style={styles.quizContainer}>

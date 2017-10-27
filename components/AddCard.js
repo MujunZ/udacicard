@@ -24,8 +24,8 @@ class AddCard extends Component {
     render() {
         return(
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
-                <TextInput style={styles.input} placeholder='Question' onChangeText={(question) => this.setState({question})} value={this.state.question}/>
-                <TextInput style={styles.input} placeholder='Answer' onChangeText={(answer) => this.setState({answer})} value={this.state.answer}/>
+                <TextInput underlineColorAndroid={'transparent'} style={styles.input} placeholder='Question' onChangeText={(question) => this.setState({question})} value={this.state.question}/>
+                <TextInput underlineColorAndroid={'transparent'} style={styles.input} placeholder='Answer' onChangeText={(answer) => this.setState({answer})} value={this.state.answer}/>
                 <TouchableOpacity style={styles.submitBtn} onPress={this.submitCard}>
                     <Text style={styles.submitBtnText}>Submit</Text>
                 </TouchableOpacity>
